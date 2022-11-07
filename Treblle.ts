@@ -19,9 +19,30 @@ export default class Treblle {
     let errors = []
     await next()
     response.response.on('finish', () => {
-      const originalResponseBody = response.lazyBody[0]
-      const maskedResponseBody = maskSensitiveValues(originalResponseBody, fieldsToMask)
+      let originalResponseBody = response.lazyBody[0]
+      let maskedResponseBody
+      try {
+        if (Buffer.isBuffer(originalResponseBody)) {
+          originalResponseBody = originalResponseBody.toString('utf8')
+        }
 
+        if (typeof originalResponseBody === 'string') {
+          let parsedResponseBody = JSON.parse(originalResponseBody)
+          maskedResponseBody = maskSensitiveValues(parsedResponseBody, fieldsToMask)
+        } else if (typeof originalResponseBody === 'object') {
+          maskedResponseBody = maskSensitiveValues(originalResponseBody, fieldsToMask)
+        }
+      } catch (error) {
+        // if we can't parse the body we'll leave it empty and set an error
+        // @ts-ignore
+        errors.push({
+          source: 'onShutdown',
+          type: 'INVALID_JSON',
+          message: 'Invalid JSON format',
+          file: null,
+          line: null,
+        })
+      }
       const trebllePayload = {
         api_key: this.config.get('treblle.apiKey'),
         project_id: this.config.get('treblle.projectId'),
@@ -63,7 +84,6 @@ export default class Treblle {
         },
         showErrors: this.config.get('treblle.showErrors'),
       }
-      console.log(JSON.stringify(trebllePayload, null, 2))
 
       fetch('https://rocknrolla.treblle.com', {
         method: 'POST',
