@@ -2,36 +2,62 @@
   "name": "treblle-adonisjs",
   "version": "0.0.1",
   "description": "The official Treblle SDK for AdonisJS",
-  "main": "build/providers/TreblleProvider.js",
-  "engines" : {
-    "npm" : ">=8.0.0",
-    "node" : ">=18.0.0"
+  "main": "build/Treblle.js",
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=18.0.0"
   },
   "scripts": {
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
     "pretest": "npm run lint",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts",
     "clean": "del-cli build",
-    "compile": "npm run lint && npm run clean && tsc",
+    "compile": "npm run lint && npm run clean && npx tsc && copyfiles templates/**/* templates/* build",
     "build": "npm run compile",
+    "lint": "eslint . --ext=.ts",
     "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "adonisjs",
+    "node",
+    "treblle",
+    "api-observability",
+    "api-monitoring"
+  ],
+  "adonisjs": {
+    "templates": {
+      "basePath": "./build/templates",
+      "config": [
+        {
+          "src": "config/treblle.txt",
+          "dest": "treblle"
+        }
+      ]
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DominusKelvin/treblle-adonisjs.git"
+    "url": "git+https://github.com/Treblle/treblle-adonisjs.git"
   },
   "author": "Treblle, Dominus_Kelvin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DominusKelvin/treblle-adonisjs/issues"
+    "url": "https://github.com/Treblle/treblle-adonisjs/issues"
   },
-  "homepage": "https://github.com/DominusKelvin/treblle-adonisjs#readme",
+  "homepage": "https://github.com/Treblle/treblle-adonisjs#readme",
   "devDependencies": {
+    "@adonisjs/core": "^5.8.8",
     "@adonisjs/mrm-preset": "^5.0.3",
     "@adonisjs/require-ts": "^2.0.13",
     "@types/node": "^18.11.9",
+    "copyfiles": "^2.4.1",
     "del-cli": "^5.0.0",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-adonis": "^2.1.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "mrm": "^4.1.13",
+    "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   },
   "peerDependencies": {
@@ -47,6 +73,40 @@
   "files": [
     "build/src",
     "build/index.d.ts",
-    "build/index.js"
-  ]
+    "build/index.js",
+    "build/templates"
+  ],
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:adonis/typescriptPackage",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "build"
+  ],
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true,
+    "useTabs": false,
+    "quoteProps": "consistent",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "printWidth": 100
+  }
 }
