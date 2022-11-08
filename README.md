@@ -52,7 +52,7 @@ Assuming you have an AdonisJS app that's not completely an API i.e a fullstack a
 ```ts
 // start/kernel.ts
 Server.middleware.registerNamed({
-  treblle: [() => import('treblle-adonisjs')
+  treblle: () => import('treblle-adonisjs')
 })
 ```
 
