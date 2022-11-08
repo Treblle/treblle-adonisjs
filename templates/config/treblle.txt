@@ -25,7 +25,7 @@ const treblleConfig = {
   |--------------------------------------------------------------------------
   |
   | By default, Treblle masks certain fields like password before it ever leaves
-  | your app, you can optional pass an array of other fields you want masked.
+  | your app, you can optionally pass an array of other fields you want masked.
   */
   additionalFieldsToMask: [],
   /*
