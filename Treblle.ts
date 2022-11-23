@@ -2,15 +2,17 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { ConfigContract } from '@ioc:Adonis/Core/Config'
 import { inject } from '@adonisjs/core/build/standalone'
 import os from 'os'
-import { generateFieldsToMask, maskSensitiveValues, getRequestDuration } from '@treblle/utils'
-import fetch from 'node-fetch'
+import {
+  fetch,
+  generateFieldsToMask,
+  maskSensitiveValues,
+  getRequestDuration,
+} from '@treblle/utils'
 
 @inject(['Adonis/Core/Config'])
 export default class Treblle {
   constructor(private config: ConfigContract) {}
   public async handle({ request, response }: HttpContextContract, next: () => Promise<void>) {
-    // TODO: Handle non-JSON response
-    // code for middleware goes here. ABOVE THE NEXT CALL
     const requestStartTime = process.hrtime()
     const payload = request.all()
     const protocol = `${request.protocol()}/${request.request.httpVersion}`
