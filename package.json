@@ -78,7 +78,7 @@
     "build/templates"
   ],
   "dependencies": {
-    "@treblle/utils": "^0.0.3"
+    "@treblle/utils": "^0.1.4"
   },
   "eslintConfig": {
     "extends": [
