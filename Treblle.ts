@@ -3,7 +3,7 @@ import type { ConfigContract } from '@ioc:Adonis/Core/Config'
 import { inject } from '@adonisjs/core/build/standalone'
 import os from 'os'
 import {
-  fetch,
+  sendPayloadToTreblle,
   generateFieldsToMask,
   maskSensitiveValues,
   getRequestDuration,
@@ -87,14 +87,11 @@ export default class Treblle {
         showErrors: this.config.get('treblle.showErrors'),
       }
 
-      fetch('https://rocknrolla.treblle.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': this.config.get('treblle.apiKey'),
-        },
-        body: JSON.stringify(trebllePayload),
-      }).catch((error) => console.log(error))
+      try {
+        sendPayloadToTreblle(trebllePayload, this.config.get('treblle.apiKey'))
+      } catch (error) {
+        console.log(error)
+      }
     })
   }
 }
