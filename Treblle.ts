@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { ConfigContract } from '@ioc:Adonis/Core/Config'
 import { inject } from '@adonisjs/core/build/standalone'
-import os from 'os'
+
 import {
   sendPayloadToTreblle,
   generateFieldsToMask,
