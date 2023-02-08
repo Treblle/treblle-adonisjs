@@ -7,6 +7,7 @@ import {
   generateFieldsToMask,
   maskSensitiveValues,
   getRequestDuration,
+  generateTrebllePayload,
 } from '@treblle/utils'
 
 @inject(['Adonis/Core/Config'])
@@ -45,29 +46,18 @@ export default class Treblle {
           line: null,
         })
       }
-      const trebllePayload = {
-        api_key: this.config.get('treblle.apiKey'),
-        project_id: this.config.get('treblle.projectId'),
-        version: process.env.npm_package_version,
-        sdk: 'adonisjs',
-        data: {
+      const trebllePayload = generateTrebllePayload(
+        {
+          api_key: this.config.get('treblle.apiKey'),
+          project_id: this.config.get('treblle.projectId'),
+          version: process.env.npm_package_version,
+          sdk: 'adonisjs',
+        },
+        {
           server: {
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            os: {
-              name: os.platform(),
-              release: os.release(),
-              architecture: os.arch(),
-            },
-            software: null,
-            signature: null,
             protocol,
           },
-          language: {
-            name: 'node',
-            version: process.version,
-          },
           request: {
-            timestamp: new Date().toISOString().replace('T', ' ').substr(0, 19),
             ip: request.ip(),
             url: request.completeUrl(),
             user_agent: request.header('user-agent'),
@@ -83,10 +73,8 @@ export default class Treblle {
             body: maskedResponseBody ?? null,
           },
           errors,
-        },
-        showErrors: this.config.get('treblle.showErrors'),
-      }
-
+        }
+      )
       try {
         sendPayloadToTreblle(trebllePayload, this.config.get('treblle.apiKey'))
       } catch (error) {
