@@ -76,7 +76,7 @@ export default class Treblle {
             body: maskedRequestPayload,
           },
           response: {
-            headers: maskSensitiveValues(response.getHeaders()),
+            headers: maskSensitiveValues(response.getHeaders(), fieldsToMask),
             code: response.getStatus(),
             size: response.getHeader('Content-Length'),
             load_time: getRequestDuration(requestStartTime),
