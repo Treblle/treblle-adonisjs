@@ -72,11 +72,11 @@ export default class Treblle {
             url: request.completeUrl(),
             user_agent: request.header('user-agent'),
             method: request.method(),
-            headers: request.headers(),
+            headers: maskSensitiveValues(request.headers(), fieldsToMask),
             body: maskedRequestPayload,
           },
           response: {
-            headers: response.getHeaders(),
+            headers: maskSensitiveValues(response.getHeaders()),
             code: response.getStatus(),
             size: response.getHeader('Content-Length'),
             load_time: getRequestDuration(requestStartTime),
