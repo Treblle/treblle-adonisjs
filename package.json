@@ -1,6 +1,6 @@
 {
   "name": "@treblle/adonisjs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "The official Treblle SDK for AdonisJS",
   "main": "build/Treblle.js",
   "engines": {
