@@ -1,6 +1,6 @@
 {
   "name": "@treblle/adonisjs",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "The official Treblle SDK for AdonisJS",
   "main": "build/Treblle.js",
   "engines": {
@@ -78,7 +78,7 @@
     "build/templates"
   ],
   "dependencies": {
-    "@treblle/utils": "^0.1.8"
+    "@treblle/utils": "^0.1.9"
   },
   "eslintConfig": {
     "extends": [
