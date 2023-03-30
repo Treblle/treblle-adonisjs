@@ -8,6 +8,7 @@ import {
   maskSensitiveValues,
   getRequestDuration,
   generateTrebllePayload,
+  getResponsePayload,
 } from '@treblle/utils'
 
 @inject(['Adonis/Core/Config'])
@@ -22,30 +23,16 @@ export default class Treblle {
     let errors = []
     await next()
     response.response.on('finish', () => {
-      let originalResponseBody = response.lazyBody[0]
-      let maskedResponseBody
-      try {
-        if (Buffer.isBuffer(originalResponseBody)) {
-          originalResponseBody = originalResponseBody.toString('utf8')
-        }
+      const { payload: maskedResponseBody, error: invalidResponseBodyError } = getResponsePayload(
+        response.lazyBody[0],
+        fieldsToMask
+      )
 
-        if (typeof originalResponseBody === 'string') {
-          let parsedResponseBody = JSON.parse(originalResponseBody)
-          maskedResponseBody = maskSensitiveValues(parsedResponseBody, fieldsToMask)
-        } else if (typeof originalResponseBody === 'object') {
-          maskedResponseBody = maskSensitiveValues(originalResponseBody, fieldsToMask)
-        }
-      } catch (error) {
-        // if we can't parse the body we'll leave it empty and set an error
+      if (invalidResponseBodyError) {
         // @ts-ignore
-        errors.push({
-          source: 'onShutdown',
-          type: 'INVALID_JSON',
-          message: 'Invalid JSON format',
-          file: null,
-          line: null,
-        })
+        errors.push(invalidResponseBodyError)
       }
+
       const trebllePayload = generateTrebllePayload(
         {
           api_key: this.config.get('treblle.apiKey'),
