@@ -47,19 +47,19 @@
   },
   "homepage": "https://github.com/Treblle/treblle-adonisjs#readme",
   "devDependencies": {
-    "@adonisjs/core": "^5.8.8",
+    "@adonisjs/core": "^5.9.0",
     "@adonisjs/mrm-preset": "^5.0.3",
     "@adonisjs/require-ts": "^2.0.13",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.16.19",
     "copyfiles": "^2.4.1",
     "del-cli": "^5.0.0",
-    "eslint": "^8.27.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-adonis": "^2.1.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "mrm": "^4.1.13",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.4"
+    "mrm": "^4.1.17",
+    "prettier": "^2.8.8",
+    "typescript": "^4.9.5"
   },
   "peerDependencies": {
     "@adonisjs/core": "^5.8.8"
@@ -78,7 +78,7 @@
     "build/templates"
   ],
   "dependencies": {
-    "@treblle/utils": "^0.1.12"
+    "@treblle/utils": "^0.1.13"
   },
   "eslintConfig": {
     "extends": [
