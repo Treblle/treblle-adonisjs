@@ -21,7 +21,6 @@ export default class Treblle {
     const fieldsToMask = generateFieldsToMask(this.config.get('treblle.additionalFieldsToMask'))
     const maskedRequestPayload = maskSensitiveValues(payload, fieldsToMask)
     let errors = []
-    await next()
     response.response.on('finish', () => {
       const { payload: maskedResponseBody, error: invalidResponseBodyError } = getResponsePayload(
         response.lazyBody[0],
@@ -68,5 +67,6 @@ export default class Treblle {
         console.log(error)
       }
     })
+    await next()
   }
 }
